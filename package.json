@@ -11,10 +11,14 @@
   "dependencies": {
     "@coreui/icons": "^3.0.1",
     "@coreui/icons-react": "^2.3.0",
+    "@heroicons/react": "^2.2.0",
+    "axios": "^1.7.9",
     "framer-motion": "^12.4.1",
     "next": "15.1.6",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.3",
+    "toast": "^0.5.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import axiosInstance from "@/app/services/axiosInstance";
+import { toast, ToastContainer } from "react-toastify";
+import { log } from "console";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -9,15 +12,19 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let users = JSON.parse(localStorage.getItem("users") || "[]");
+    try {
+      const response = await axiosInstance.post("/login", { email, password });
 
-    if (users.includes(email)) {
-      localStorage.setItem("currentUser", email);
+      localStorage.setItem("accessToken", response?.data?.token);
+      toast.success("Login successfully");
+
       router.push("/dashboard");
-    } else {
-      setError("Please register before login.");
+    } catch (error: any) {
+      toast.error(error.response?.data.error || "Something went wrong");
+      console.error("Error logging in:", error.response?.data || error.message);
+    } finally {
     }
   };
 
@@ -27,8 +34,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-[url('/bgimage1.jpg')] bg-cover bg-center p-4">
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow">
+        <img src="/pokemonlogo.png" alt="Top Image" className="mx-auto mb-4" />
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -41,7 +49,7 @@ export default function LoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="mt-1 w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-200"
             />
           </div>
           <div>
@@ -54,19 +62,19 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="mt-1 w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-200"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+            className="w-full bg-orange-500 text-white py-2 rounded hover:bg-orange-00 transition"
           >
             Login
           </button>
           <button
             type="submit"
             onClick={handleRegister}
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-green-600 transition"
+            className="w-full bg-orange-400 text-white py-2 rounded hover:bg-yellow-600 transition"
           >
             Register
           </button>
