@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axiosInstance from "@/app/services/axiosInstance";
+import axiosInstance from "@/services/axiosInstance";
 import { toast, ToastContainer } from "react-toastify";
 import { log } from "console";
 

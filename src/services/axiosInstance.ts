@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 
-const baseURL: string = "http://localhost:5000/api";
+const baseURL: string = "http://192.168.100.186:5000/api";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: baseURL,
@@ -10,7 +10,6 @@ const axiosInstance: AxiosInstance = axios.create({
   },
 });
 
-// Fix interceptor type
 axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // ✅ Fix

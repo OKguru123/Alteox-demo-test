@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axiosInstance from "../services/axiosInstance";
+import axiosInstance from "../../services/axiosInstance";
 import { toast } from "react-toastify";
 interface Pokemon {
   id: number;
@@ -18,7 +18,6 @@ export default function PokemonTable() {
   const [offset, setOffset] = useState(1);
   const [selectedPokemon, setSelectedPokemon] = useState<any>(null);
   const [likedPokemons, setLikedPokemons] = useState<Set<number>>(new Set());
-  const [islikedperform, setislikedperform] = useState(true);
   const [totalpage, setTotalPage] = useState(1);
 
   const toggleLike = (id: number, type: boolean) => {
@@ -36,7 +35,7 @@ export default function PokemonTable() {
         newLikes.delete(id);
         return newLikes;
       });
-      toast.success("Like removed successfully! ❌"); // ✅ Success toast added
+      toast.success("Like removed successfully! ❌");
     } catch (err) {
       toast.error("Something went wrong!!");
     }
@@ -46,7 +45,7 @@ export default function PokemonTable() {
     try {
       await axiosInstance.post("add-favorite-pokemon", { pokemonId: id });
       setLikedPokemons((prev) => new Set(prev).add(id));
-      toast.success("Liked successfully! 🎉"); // ✅ Success toast added
+      toast.success("Liked successfully! 🎉");
     } catch (err) {
       toast.error("Something went wrong!!");
     }
@@ -111,12 +110,12 @@ export default function PokemonTable() {
                     <td className="p-3 capitalize">{pokemon.name}</td>
                     <td className="p-3">
                       <img
-                        src={pokemon.imageUrl}
+                        src={pokemon.image_url}
                         alt={pokemon.name}
                         className="h-16 w-16 mx-auto"
                       />
                     </td>
-                    <td className="p-3 capitalize">{pokemon.pokemonType}</td>
+                    <td className="p-3 capitalize">{pokemon.pokemon_type}</td>
                     <td className="p-3">
                       <button
                         onClick={() => setSelectedPokemon(pokemon)}
@@ -160,13 +159,6 @@ export default function PokemonTable() {
         )}
 
         <div className="flex justify-between items-center mt-4">
-          {/* <input
-            disabled={limitperpage === totalpage}
-            value={limitperpage}
-            // onChange={(e) => setLimit(Number(e.target.value))}
-            className="border p-2 rounded-md "
-            min="1"
-          /> */}
           <div />
           <div>
             <button
@@ -200,12 +192,12 @@ export default function PokemonTable() {
               {selectedPokemon.name}
             </h2>
             <img
-              src={selectedPokemon.imageUrl}
+              src={selectedPokemon.image_url}
               alt={selectedPokemon.name}
               className="h-48 w-48 mx-auto my-4"
             />
             <p className="text-lg">
-              <strong>Type:</strong> {selectedPokemon.pokemonType}
+              <strong>Type:</strong> {selectedPokemon.pokemon_type}
             </p>
           </div>
         </div>

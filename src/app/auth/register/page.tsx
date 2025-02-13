@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import axiosInstance from "@/app/services/axiosInstance";
+import axiosInstance from "@/services/axiosInstance";
 
-// Define Organization Type
 interface Organization {
   id: string;
   name: string;
@@ -25,12 +24,10 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      console.log("Selected Organization:", organization); // Debugging log
-
       await axiosInstance.post("/register-user", {
         email,
         password,
-        organizationId: organization?.id, // Send only ID
+        organizationId: organization?.id,
       });
 
       toast.success("User registered successfully!");
@@ -48,7 +45,7 @@ export default function RegisterPage() {
       try {
         const response = await axiosInstance.get("/organizations");
 
-        setAllOrganizations(response.data.organizations);
+        setAllOrganizations(response?.data?.organizations);
       } catch (error) {
         console.error("Error fetching organizations:", error);
       }
